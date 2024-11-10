@@ -1,7 +1,9 @@
 package com.douglasmatosdev.mscartoes.application;
 
 import com.douglasmatosdev.mscartoes.application.representation.CartaoSaveRequest;
+import com.douglasmatosdev.mscartoes.application.representation.CartoesPorClienteResponse;
 import com.douglasmatosdev.mscartoes.domain.Cartao;
+import com.douglasmatosdev.mscartoes.domain.ClienteCartao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ import java.util.stream.Collectors;
 @RequestMapping("cartoes")
 @RequiredArgsConstructor
 public class CartoesResource {
+
+    private final ClienteCartaoService clienteCartaoService;
 
     private final CartaoService cartaoService;
 
@@ -35,13 +39,13 @@ public class CartoesResource {
         return ResponseEntity.ok(list);
     }
 
-//    @GetMapping(params = "cpf")
-//    public ResponseEntity<List<CartoesPorClienteResponse>> getCartoesByCliente(
-//            @RequestParam("cpf") String cpf){
-//        List<ClienteCartao> lista = clienteCartaoService.listCartoesByCpf(cpf);
-//        List<CartoesPorClienteResponse> resultList = lista.stream()
-//                .map(CartoesPorClienteResponse::fromModel)
-//                .collect(Collectors.toList());
-//        return ResponseEntity.ok(resultList);
-//    }
+    @GetMapping(params = "cpf")
+    public ResponseEntity<List<CartoesPorClienteResponse>> getCartoesByCliente(
+            @RequestParam("cpf") String cpf){
+        List<ClienteCartao> lista = clienteCartaoService.listCartoesByCpf(cpf);
+        List<CartoesPorClienteResponse> resultList = lista.stream()
+                .map(CartoesPorClienteResponse::fromModel)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(resultList);
+    }
 }
