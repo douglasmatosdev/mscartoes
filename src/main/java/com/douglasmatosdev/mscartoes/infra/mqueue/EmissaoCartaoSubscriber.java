@@ -22,7 +22,7 @@ public class EmissaoCartaoSubscriber {
     private final ClienteCartaoRepository clienteCartaoRepository;
 
     @RabbitListener(queues = "${mq.queues.emissao-cartoes}")
-    public void receberSolicitacaoEmissao(@Payload String payload){
+    public void receberSolicitacaoEmissao(@Payload String payload) {
         System.out.println(payload);
         try {
             var mapper = new ObjectMapper();
@@ -37,7 +37,7 @@ public class EmissaoCartaoSubscriber {
 
             clienteCartaoRepository.save(clienteCartao);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Erro ao receber solicitacao de emissao de cartao: {} ", e.getMessage());
         }
     }
